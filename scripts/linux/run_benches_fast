@@ -1,0 +1,48 @@
+#!/bin/bash
+
+mkdir -p ./benches/parameters
+
+# Specify number of warmup and measurement runs
+echo 1 > ./benches/parameters/n_warmup
+echo 10 > ./benches/parameters/n_measure
+
+# Write parameters
+echo 8 > ./benches/parameters/input_bytes
+echo 8 > ./benches/parameters/gamma_bytes
+echo 1 > ./benches/parameters/time_bytes
+echo 4 > ./benches/parameters/mt_depth
+
+DATETIME=$(date +"%Y-%m-%d--%H-%M-%S")
+mkdir -p ./results/raw/benches
+
+echo 16 > ./benches/parameters/randomness_bytes
+
+echo "Running base_histogram (1/6)"
+cargo bench --bench base_histogram --features print-trace > ./results/raw/benches/"${DATETIME}"_bench_base_histogram.txt 2>&1
+
+echo "Running expand_histogram (2/6)"
+cargo bench --bench expand_histogram --features print-trace > ./results/raw/benches/"${DATETIME}"_bench_expand_histogram.txt 2>&1
+
+echo "Running shuffle_histogram (3/6)"
+# shellcheck disable=SC2086
+cargo bench --bench shuffle_histogram --features print-trace > ./results/raw/benches/${DATETIME}_bench_shuffle_histogram.txt 2>&1
+
+rm ./benches/parameters/randomness_bytes
+echo 24 > ./benches/parameters/randomness_bytes
+
+echo "Running base_real (4/6)"
+# shellcheck disable=SC2086
+cargo bench --bench base_real --features print-trace > ./results/raw/benches/${DATETIME}_bench_base_real.txt 2>&1
+
+echo "Running expand_real (5/6)"
+# shellcheck disable=SC2086
+cargo bench --bench expand_real --features print-trace > ./results/raw/benches/${DATETIME}_bench_expand_real.txt 2>&1
+
+echo "Running shuffle_real (6/6)"
+cargo bench --bench shuffle_real --features print-trace > ./results/raw/benches/"${DATETIME}"_bench_shuffle_real.txt 2>&1
+
+# Clear parameters
+rm -rf ./benches/parameters
+
+echo Parsing results
+python ./scripts/parse_bench_results.py "${DATETIME}"

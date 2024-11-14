@@ -1,0 +1,6 @@
+# Default line ending behaviour is auto
+* text=auto
+
+# Make sure that linux/windows scripts always have the right line-endings
+scripts/linux/* text eol=lf
+scripts/windows/* text eol=crlf

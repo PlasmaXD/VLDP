@@ -1,0 +1,8 @@
+geopy~=2.4
+jupyter~=1.1
+kagglehub~=0.3.3
+matplotlib~=3.9
+numpy~=2.1
+pandas~=2.2
+scipy~=1.14
+shuffleddp @ git+https://github.com/BorjaBalle/amplification-by-shuffling@1778a0dd16405cb10d780d5f1878ed0b1fb76f2e

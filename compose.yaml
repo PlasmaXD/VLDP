@@ -1,0 +1,20 @@
+name: vldp
+
+services:
+  notebook:
+    build: .
+    volumes:
+      - ./resources/shuffle-model-parameters:/usr/src/vldp/resources/shuffle-model-parameters
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token=""
+  run_all:
+    build: .
+    volumes:
+      - ./docker_mounts/run_all/results:/usr/src/vldp/results
+    command: ./scripts/linux/run_all
+  run_all_fast:
+    build: .
+    volumes:
+      - ./docker_mounts/run_all_fast/results:/usr/src/vldp/results
+    command: ./scripts/linux/run_all_fast

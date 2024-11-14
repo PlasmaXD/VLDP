@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo ---Starting benches---
+./scripts/linux/run_benches
+echo ---Finished benches---
+
+echo ---Starting geo data---
+./scripts/linux/run_geo_data_examples
+echo ---Finished geo data---
+
+echo ---Starting smart meter---
+./scripts/linux/run_smart_meter_examples
+echo --Finished smart meter---
+
+echo ---Starting additional benches---
+./scripts/linux/run_additional/benches
+echo ---Finished additional benches---

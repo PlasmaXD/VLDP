@@ -1,0 +1,115 @@
+[package]
+name = "vldp"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.dev]
+opt-level = 3
+
+[profile.test]
+opt-level = 3
+
+[profile.release]
+strip = true
+lto = true
+panic = "abort"
+codegen-units = 1
+
+[dependencies]
+astro-float = "0.9.0"
+csv = "1.3.0"
+derivative = "2.2.0"
+num-bigint = "0.4.0"
+rand = { version = "0.8.0", features = ["getrandom"] }
+rand_chacha = { version = "0.3.0", features = ["simd"] }
+
+# arkworks crates
+ark-bls12-381 = "0.4.0"
+ark-crypto-primitives = { version = "0.4.0", features = ["commitment", "merkle_tree", "prf", "r1cs"] }
+ark-ec = "0.4.0"
+ark-ed-on-bls12-381 = { version = "0.4.0", features = ["r1cs"] }
+ark-ff = "0.4.0"
+ark-groth16 = "0.4.0"
+ark-marlin = { git = "https://github.com/lightec-xyz/marlin", rev = "e0030c8" }
+ark-poly = "0.4.0"
+ark-poly-commit = "0.4.0"
+ark-r1cs-std = "0.4.0"
+ark-relations = "0.4.0"
+ark-snark = "0.4.0"
+ark-serialize = "0.4.0"
+
+
+# because of copying signature
+ark-std = "0.4.0"
+blake2 = "0.10.0"
+
+[features]
+default = ["parallel"]
+parallel = ["ark-crypto-primitives/parallel", "ark-ec/parallel", "ark-ff/parallel", "ark-groth16/parallel", "ark-marlin/parallel", "ark-poly/parallel", "ark-poly-commit/parallel", "ark-r1cs-std/parallel", "ark-std/parallel"]
+print-trace = ["ark-crypto-primitives/print-trace", "ark-groth16/print-trace", "ark-marlin/print-trace", "ark-poly-commit/print-trace", "ark-std/print-trace"]
+
+# --- BENCHES ---
+
+# ------ HISTOGRAM ------
+[[bench]]
+name = "base_histogram"
+path = "benches/random_single_run_histogram/base_protocol.rs"
+harness = false
+
+[[bench]]
+name = "expand_histogram"
+path = "benches/random_single_run_histogram/expand_protocol.rs"
+harness = false
+
+[[bench]]
+name = "shuffle_histogram"
+path = "benches/random_single_run_histogram/shuffle_protocol.rs"
+harness = false
+
+# ------ REAL ------
+[[bench]]
+name = "base_real"
+path = "benches/random_single_run_real/base_protocol.rs"
+harness = false
+
+[[bench]]
+name = "expand_real"
+path = "benches/random_single_run_real/expand_protocol.rs"
+harness = false
+
+[[bench]]
+name = "shuffle_real"
+path = "benches/random_single_run_real/shuffle_protocol.rs"
+harness = false
+
+# --- EXAMPLES ---
+
+# ------ SMART METER ------
+[[example]]
+name = "smart_meter_base"
+path = "examples/smart_meter_data/base_protocol.rs"
+
+[[example]]
+name = "smart_meter_expand"
+path = "examples/smart_meter_data/expand_protocol.rs"
+
+[[example]]
+name = "smart_meter_shuffle"
+path = "examples/smart_meter_data/shuffle_protocol.rs"
+
+# ------ GEO DATA ------
+[[example]]
+name = "geo_data_base"
+path = "examples/geo_data/base_protocol.rs"
+
+[[example]]
+name = "geo_data_expand"
+path = "examples/geo_data/expand_protocol.rs"
+
+[[example]]
+name = "geo_data_shuffle"
+path = "examples/geo_data/shuffle_protocol.rs"
+

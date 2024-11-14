@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DATETIME=$(date +"%Y-%m-%d--%H-%M-%S")
+mkdir -p ./results/raw/geo_data
+
+echo "Running base (1/3)"
+cargo run --release --example geo_data_base > ./results/raw/geo_data/"${DATETIME}"_geo_data_base.txt 2>&1
+
+echo "Running expand (2/3)"
+cargo run --release --example geo_data_expand > ./results/raw/geo_data/"${DATETIME}"_geo_data_expand.txt 2>&1
+
+echo "Running shuffle (3/3)"
+cargo run --release --example geo_data_shuffle > ./results/raw/geo_data/"${DATETIME}"_geo_data_shuffle.txt 2>&1
+
+echo Parsing results
+python ./scripts/parse_geo_data_results.py "${DATETIME}"

@@ -1,0 +1,15 @@
+# Jetbrains IDE
+/.idea
+
+# Rust
+/target
+
+# Results
+/results
+
+# Docker mounts
+docker_mounts
+
+# Raw data
+/resources/shuffle-model-parameters/Geolife Trajectories 1.3
+/resources/shuffle-model-parameters/.ipynb_checkpoints
