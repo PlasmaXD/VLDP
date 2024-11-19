@@ -1,7 +1,8 @@
 # VLDP in local and shuffle model
 
-This repository contains the code for the paper *Efficient Verifiable Differential Privacy with Input Authenticity in
-the Local and Shuffle Model* by *Tariq Bontekoe*, *Hassan Jameel Asghar*, and *Fatih Turkmen*.
+This repository contains the code for the [paper](https://arxiv.org/abs/2406.18940) *Efficient Verifiable Differential
+Privacy with Input Authenticity in the Local and Shuffle Model* by *Tariq Bontekoe*, *Hassan Jameel Asghar*, and *Fatih
+Turkmen*.
 
 We make our code available open-source under the MIT license.
 
