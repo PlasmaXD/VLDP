@@ -1,10 +1,11 @@
 # VLDP in local and shuffle model
 
-This repository contains the code for the [paper](https://arxiv.org/abs/2406.18940) *Efficient Verifiable Differential
+This repository contains the code for the paper *Efficient Verifiable Differential
 Privacy with Input Authenticity in the Local and Shuffle Model* by *Tariq Bontekoe*, *Hassan Jameel Asghar*, and *Fatih
-Turkmen*.
+Turkmen*. Links: [arXiv](https://arxiv.org/abs/2406.18940); [IACR ePrint](https://eprint.iacr.org/2024/1042)
 
-We make our code available open-source under the MIT license.
+We make our code available open-source under the MIT license. To enable anyone to re-use our code and/or reproduce the
+results from our paper.
 
 ## Contents
 
@@ -15,12 +16,17 @@ We make our code available open-source under the MIT license.
 
 ## Description
 
-This repository implement the client and server functionality for the three different VLDP schemes presented in the
+This repository implements the client and server functionality for the three different VLDP schemes presented in the
 paper (*Base*, *Expand*, and *Shuffle*). Moreover, we implement benchmarks on random data and example scripts on real
 datasets to evaluate our schemes. The benchmarks give an insight into the client/server performance and the examples
 show the behaviour on real data. Next to this, we also include Jupyter notebooks which were used for dataset parsing and
 determining the DP parameters used in the examples and the paper. Finally, we include script for running all benchmarks
 and examples at once, parsing the results and transforming these into the plots that are presented in the paper.
+
+The simplest way to run the code is by using [Docker](#running-in-docker). To reproduce the experiments from the paper (
+on your own hardware, so the runtimes may be different, but the trend should be similar) you can run the `run_all`
+container (or `run_all_fast` for faster, but less precise results). To view and reproduce the datasets we used for the
+experiments on our paper, one can run the `notebook` container.
 
 *Note:
 In our benchmark and example scripts, the trusted environment, communication, and (if present) shuffler are emulated, as
