@@ -16,7 +16,7 @@ if __name__ == "__main__":
     input_file_directory = "./results/parsed/additional_benches/"
 
     for dir_, x_values, filter_labels, x_label in zip(
-            ("./results/plots/randomness", "./results/plots/merkle_tree", "./results/plots/time"),
+            ("./results/plots/randomness", "./results/plots/merkle_tree"),
             (RANDOMNESS_VALUES, MT_VALUES),
             (RANDOMNESS_LABELS, MT_LABELS),
             (r"$|\rho|$ (bytes)", r"$d_\textsf{MT}$")):
@@ -41,8 +41,8 @@ if __name__ == "__main__":
         for title, column in zip(
                 ("GenRand-1 (client)", "GenRand-2 (client)", "GenRand (server)", "Randomize (client)",
                  "Verify (server)", "Number of constraints"),
-                ("Client generation (ms)", "Client verification (ms)", "Server generation (ms)",
-                 "Client generation (ms).1", "Server verification (ms)", "Number of constraints")):
+                ("Client | GenRand-1 (ms)", "Client | GenRand-2 (ms)", "Server | GenRand (ms)",
+                 "Client | Randomize (ms)", "Server | Verify (ms)", "# constraints")):
 
             fig, ax = plt.subplots(tight_layout=True)
             for protocol_name in PROTOCOL_NAMES:
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 median_file_name = f"{input_file_directory}{datetime}_{protocol_name}_medians.csv"
                 all_medians = pandas.read_csv(median_file_name)
 
-                y_values = all_medians.loc[all_medians["Name"].isin(filter_labels)][column].values
+                y_values = all_medians.loc[all_medians["Parameter_value"].isin(filter_labels)][column].values
                 if "histogram" in protocol_name:
                     marker = "|"
                 else:

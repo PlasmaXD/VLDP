@@ -4,7 +4,11 @@ import re
 import sys
 import pandas
 
-PROTOCOL_NAMES = ["base_histogram", "expand_histogram", "shuffle_histogram", "base_real", "expand_real", "shuffle_real"]
+INTERNAL_PROTOCOL_NAMES = ["base_histogram", "expand_histogram", "shuffle_histogram", "base_real", "expand_real",
+                           "shuffle_real"]
+PROTOCOL_NAMES = [("Histogram/GPS", "Base"), ("Histogram/GPS", "Expand"), ("Histogram/GPS", "Shuffle"),
+                  ("Real/Smart meter", "Base"),
+                  ("Real/Smart meter", "Expand"), ("Real/Smart meter", "Shuffle")]
 
 MEASUREMENT_STEPS = [
     # ZKP statistics
@@ -31,26 +35,29 @@ MEASUREMENT_STEPS = [
 
 HEADERS = [
     # ZKP statistics
-    "Number of constraints",
-    "Proving key size (b)",
-    "Verifying key size (b)",
+    "# constraints",
+    "|ek|",
+    "|vk|",
     # "Generate randomness" start
-    "Client generation (ms)",
-    "Server generation (ms)",
-    "Client verification (ms)",
-    "Generate randomness (ms)",  # end
-    "Trusted environment computation (ms)",
+    "Client | GenRand-1 (ms)",
+    "Server | GenRand (ms)",
+    "Client | GenRand-2 (ms)",
+    "Total | GenRand (ms)",  # end
+    "Trusted environment | create and sign value (ms)",
     # "Verifiable randomization" start
-    "Client generation (ms)",
-    "Server verification (ms)",
-    "Verifiable randomization (ms)",  # end
+    "Client | Randomize (ms)",
+    "Server | Verify (ms)",
+    "Total | Randomize + Verify (ms)",  # end
     # Message sizes
-    "Messages sent (b)",
-    "Generate randomness (b)",
-    "Client message (b)",
-    "Server message (b)",
-    "Verifiable randomization (b)",
+    "Communication | Total (b)",
+    "Communication | GenRand | Total (b)",
+    "Communication | GenRand-1 (b)",
+    "Communication | GenRand-2 (b)",
+    "Communication | Randomize (b)",
 ]
+
+FINAL_ORDER = [3, 5, 8, 4, 9, 13, 14, 15, 1, 2, 0]
+FINAL_HEADERS = [HEADERS[i] for i in FINAL_ORDER]
 
 if __name__ == "__main__":
     datetime = sys.argv[1]
@@ -65,8 +72,8 @@ if __name__ == "__main__":
     all_medians = []
     all_means = []
 
-    for protocol_name in PROTOCOL_NAMES:
-        file_name = f"{datetime}_bench_{protocol_name}"
+    for internal_protocol_name, protocol_name in zip(INTERNAL_PROTOCOL_NAMES, PROTOCOL_NAMES):
+        file_name = f"{datetime}_bench_{internal_protocol_name}"
         input_file_name = f"{input_file_directory}{file_name}.txt"
         output_file_name = f"{output_file_directory}{file_name}.csv"
         timing_and_size_data_all = []
@@ -124,21 +131,24 @@ if __name__ == "__main__":
 
         with open(output_file_name, 'w', newline='') as output_file:
             writer = csv.writer(output_file)
-            writer.writerow(HEADERS)
+            writer.writerow(FINAL_HEADERS)
+            timing_and_size_data_all = [[row[i] for i in FINAL_ORDER] for row in timing_and_size_data_all]
             writer.writerows(timing_and_size_data_all)
 
         all_data = pandas.read_csv(output_file_name)
         all_medians.append(
-            [protocol_name] + list(map(lambda x: "{:.5f}".format(round(float(x), 5)), all_data.median().values)))
+            [protocol_name[0], protocol_name[1]] + list(
+                map(lambda x: "{:.5f}".format(round(float(x), 5)), all_data.median().values)))
         all_means.append(
-            [protocol_name] + list(map(lambda x: "{:.5f}".format(round(float(x), 5)), all_data.mean().values)))
+            [protocol_name[0], protocol_name[1]] + list(
+                map(lambda x: "{:.5f}".format(round(float(x), 5)), all_data.mean().values)))
 
     with open(median_file_name, 'w', newline='') as median_file:
         writer = csv.writer(median_file)
-        writer.writerow(["Name"] + HEADERS)
+        writer.writerow(["Datatype/Dataset", "Scheme"] + FINAL_HEADERS)
         writer.writerows(all_medians)
 
     with open(mean_file_name, 'w', newline='') as mean_file:
         writer = csv.writer(mean_file)
-        writer.writerow(["Name"] + HEADERS)
+        writer.writerow(["Datatype/Dataset", "Scheme"] + FINAL_HEADERS)
         writer.writerows(all_means)
