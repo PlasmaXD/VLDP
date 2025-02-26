@@ -56,7 +56,7 @@ Below, we describe how to access our code and set up the environment.
 ### Accessibility
 
 The artifact can be accessed on GitHub, the version of the code for the paper has been
-tagged [v1.0.0](https://github.com/xQiratNL/VLDP/tree/v1.0.0).
+tagged [v1.1.0](https://github.com/xQiratNL/VLDP/tree/v1.1.0).
 
 ### Set up the environment
 
@@ -66,7 +66,7 @@ using Git Bash on Windows).
 ```bash
 git clone git@github.com:xQiratNL/VLDP.git
 cd VLDP
-git checkout v1.0.0
+git checkout v1.1.0
 ```
 
 Make sure you also have already installed Docker Desktop as described [above](#software-requirements). Alternatively one
