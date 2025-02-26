@@ -33,7 +33,6 @@ ark-ec = "0.4.0"
 ark-ed-on-bls12-381 = { version = "0.4.0", features = ["r1cs"] }
 ark-ff = "0.4.0"
 ark-groth16 = "0.4.0"
-ark-marlin = { git = "https://github.com/lightec-xyz/marlin", rev = "e0030c8" }
 ark-poly = "0.4.0"
 ark-poly-commit = "0.4.0"
 ark-r1cs-std = "0.4.0"
@@ -48,8 +47,8 @@ blake2 = "0.10.0"
 
 [features]
 default = ["parallel"]
-parallel = ["ark-crypto-primitives/parallel", "ark-ec/parallel", "ark-ff/parallel", "ark-groth16/parallel", "ark-marlin/parallel", "ark-poly/parallel", "ark-poly-commit/parallel", "ark-r1cs-std/parallel", "ark-std/parallel"]
-print-trace = ["ark-crypto-primitives/print-trace", "ark-groth16/print-trace", "ark-marlin/print-trace", "ark-poly-commit/print-trace", "ark-std/print-trace"]
+parallel = ["ark-crypto-primitives/parallel", "ark-ec/parallel", "ark-ff/parallel", "ark-groth16/parallel", "ark-poly/parallel", "ark-poly-commit/parallel", "ark-r1cs-std/parallel", "ark-std/parallel"]
+print-trace = ["ark-crypto-primitives/print-trace", "ark-groth16/print-trace", "ark-poly-commit/print-trace", "ark-std/print-trace"]
 
 # --- BENCHES ---
 

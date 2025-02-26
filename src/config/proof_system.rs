@@ -3,7 +3,6 @@
 
 use crate::prelude::*;
 use ark_ff::PrimeField;
-use ark_marlin::SimplePoseidonRng;
 use ark_relations::r1cs::ConstraintSynthesizer;
 use ark_serialize::CanonicalSerialize;
 use ark_snark::{CircuitSpecificSetupSNARK, SNARK};
@@ -18,12 +17,6 @@ pub trait ProofSystemRng: RngCore {
 impl ProofSystemRng for ChaChaRng {
     fn new() -> Self {
         Self::from_entropy()
-    }
-}
-
-impl<F: PrimeField> ProofSystemRng for SimplePoseidonRng<F> {
-    fn new() -> Self {
-        Self::default()
     }
 }
 
