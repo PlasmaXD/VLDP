@@ -1,0 +1,10 @@
+   Compiling vldp v0.1.0 (/home/jun/src/reserch/VLDP)
+error: couldn't read benches/random_single_run_real/../parameters/n_warmup: No such file or directory (os error 2)
+  --> benches/random_single_run_real/expand_protocol.rs:16:22
+   |
+16 | const N_WARMUP: u8 = include!("../parameters/n_warmup");
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the macro `include` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: could not compile `vldp` (bench "expand_real") due to 1 previous error

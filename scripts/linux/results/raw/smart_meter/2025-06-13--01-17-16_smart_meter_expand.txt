@@ -1,0 +1,3 @@
+    Finished `release` profile [optimized] target(s) in 0.04s
+     Running `/home/jun/src/reserch/VLDP/target/release/examples/smart_meter_expand`
+Error occurred: No such file or directory (os error 2)

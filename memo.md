@@ -330,8 +330,10 @@ VLDPシステムは、プライバシー保護データ収集において強力�
 
 
 # カレントディレクトリをそのままリポジトリ化して origin にプッシュ
+```
 gh repo create PlasmaXD/VLDP \
   --public \         # 公開リポジトリにする場合。非公開なら --private
   --source=. \       # カレントディレクトリをソースに指定
   --remote=origin \  # リモート名を origin として設定
   --push             # 作成後に自動で push
+```

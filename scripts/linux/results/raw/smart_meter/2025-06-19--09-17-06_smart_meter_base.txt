@@ -1,0 +1,4 @@
+   Compiling vldp v0.1.0 (/home/jun/src/reserch/VLDP)
+    Finished `release` profile [optimized] target(s) in 21.02s
+     Running `/home/jun/src/reserch/VLDP/target/release/examples/smart_meter_base`
+Error occurred: No such file or directory (os error 2)

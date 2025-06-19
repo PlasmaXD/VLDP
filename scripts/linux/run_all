@@ -1,17 +1,51 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# プロジェクト全体のベンチマーク → 生データ出力 → パースを一括で行う統合スクリプト
+# 使い方: ./run_all  （引数は不要）
 
-echo ---Starting benches---
-./scripts/linux/run_benches
-echo ---Finished benches---
+set -euo pipefail
 
-echo ---Starting geo data---
-./scripts/linux/run_geo_data_examples
-echo ---Finished geo data---
+# --- スクリプト自身のディレクトリ（…/scripts/linux） ---
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# --- プロジェクトルート（…/VLDP） ---
+root_dir="$(dirname "$(dirname "$script_dir")")"
+# --- 共通タイムスタンプ ---
+timestamp="$(date +%Y%m%d%H%M%S)"
 
-echo ---Starting smart meter---
-./scripts/linux/run_smart_meter_examples
-echo --Finished smart meter---
+echo '---Starting benches---'
+"$script_dir/run_benches" "$timestamp"
+echo '---Finished benches---'
 
-echo ---Starting additional benches---
-./scripts/linux/run_additional/benches
-echo ---Finished additional benches---
+echo '---Parsing bench results---'
+(
+  cd "$root_dir"
+  python scripts/parse_bench_results.py "$timestamp"
+)
+
+echo '---Starting geo data---'
+"$script_dir/run_geo_data_examples" "$timestamp"
+echo '---Finished geo data---'
+
+echo '---Parsing geo data results---'
+(
+  cd "$root_dir"
+  python scripts/parse_geo_data_results.py "$timestamp"
+)
+
+echo '---Starting smart meter---'
+"$script_dir/run_smart_meter_examples" "$timestamp"
+echo '---Finished smart meter---'
+
+echo '---Parsing smart meter results---'
+(
+  cd "$root_dir"
+  python scripts/parse_smart_meter_results.py "$timestamp"
+)
+
+echo '---Starting additional benches---'
+if [ -x "$root_dir/scripts/run_additional/benches" ]; then
+  "$root_dir/scripts/run_additional/benches" "$timestamp"
+else
+  echo "WARNING: additional benches script not found: $root_dir/scripts/run_additional/benches"
+fi
+echo '---Finished additional benches---'
